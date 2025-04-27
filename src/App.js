@@ -7,7 +7,11 @@ import Home from "./components/Home";
 import Collection from "./components/Collection";
 import ProductPage from "./components/ProductPage";
 import CartPage from "./components/CartPage";
+import Login from "./components/LogIn";
+import Register from "./components/Register";
+import Account from "./components/Account";
 import { createCart, addToCart } from "./api";
+import "./components/styles.css";  // Importing the external CSS file
 
 function App() {
   const [cartId, setCartId] = useState(() => localStorage.getItem("cartId"));
@@ -105,6 +109,9 @@ function App() {
             <Route path="/collection/:handle" element={<Collection addToCart={handleAddToCart} />} />
             <Route path="/cart" element={<CartPage cartId={cartId} setCheckoutUrl={setCheckoutUrl} />} />
             <Route path="/product/:handle" element={<ProductPage addToCart={handleAddToCart} />} /> {/* 👈 add this */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </div>
 

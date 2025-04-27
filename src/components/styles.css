@@ -1,0 +1,366 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Header Section */
+header {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+header nav {
+  margin-top: 20px;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* Banner Section */
+.banner {
+  background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.banner h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.shop-now-btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  background: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Collections Section */
+.collections {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.collections h2 {
+  margin-bottom: 30px;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
+  gap: 20px;
+}
+
+.collection-card {
+  text-decoration: none;
+  color: #000;
+}
+
+.collection-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.collection-card h3 {
+  margin-top: 10px;
+}
+
+/* Image with Text Section */
+.promo-section {
+  display: flex;
+  align-items: center;
+  padding: 60px 20px;
+  gap: 40px;
+  text-align: center;
+}
+
+.promo-section img {
+  width: 50%;
+  border-radius: 10px;
+}
+
+.promo-section div {
+  max-width: 500px;
+}
+
+.promo-section button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Rich Text Section */
+.rich-text-section {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.rich-text-section p {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+  padding: 60px 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  padding: 60px 20px;
+  background-color: #eee;
+  text-align: center;
+}
+
+.newsletter-section input {
+  padding: 10px;
+  margin-top: 20px;
+  width: 300px;
+}
+
+.newsletter-section button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  padding: 40px 20px;
+  background-color: #222;
+  color: #aaa;
+  text-align: center;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .collection-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for tablet screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .banner h1 {
+    font-size: 36px;
+  }
+
+  .promo-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .promo-section img {
+    width: 80%;
+  }
+
+  .newsletter-section input {
+    width: 250px;
+  }
+
+  header h1 {
+    font-size: 28px;
+  }
+
+  header nav {
+    margin-top: 10px;
+  }
+
+  header nav a {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner h1 {
+    font-size: 28px;
+  }
+
+  .shop-now-btn {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  .promo-section img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .newsletter-section input {
+    width: 80%;
+  }
+
+  .collection-grid {
+    grid-template-columns: 1fr 1fr; /* 2 columns for small screens */
+  }
+
+  header nav {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  header nav a {
+    font-size: 14px;
+    margin: 5px 10px;
+  }
+}
+
+
+/* header css */
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Header Section */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 50px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+header img {
+  height: 50px;
+}
+
+/* Navigation */
+header nav {
+  display: flex;
+  gap: 30px;
+  font-weight: 600;
+  font-size: 16px;
+  justify-content: center;
+  flex: 1;
+}
+
+header nav a {
+  color: #000;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* Cart & Account Icons */
+header .cart-account {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+header .cart-account a {
+  font-size: 24px;
+  position: relative;
+}
+
+/* Cart Notification */
+header .cart-account .cart-notification {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  header {
+    padding: 10px 30px;
+  }
+
+  header nav {
+    font-size: 14px;
+  }
+
+  header .cart-account {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 10px 20px;
+  }
+
+  header nav {
+    display: none; /* Hide nav on small screens */
+  }
+
+  header .cart-account {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header .cart-account {
+    margin-top: 10px;
+  }
+}

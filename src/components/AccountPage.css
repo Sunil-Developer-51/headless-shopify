@@ -1,0 +1,38 @@
+.account-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-color: #f4f7fc;
+  }
+  
+  .account-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  
+  .account-card h2,
+  .account-card h3 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  .account-card p {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  .order-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .order-item p {
+    margin: 5px 0;
+  }
+  

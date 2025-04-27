@@ -17,7 +17,13 @@ function Collection({ addToCart }) {
   }, [handle]);
   return (
     <div>
-      <h1>Products</h1>
+    <h1
+      style={{
+        textAlign:'center',
+        marginTop:'50px'
+     }}
+     
+      >Products</h1>
       <ProductList products={products} addToCart={addToCart} />
     </div>
   );

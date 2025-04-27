@@ -6,7 +6,7 @@ const STOREFRONT_ACCESS_TOKEN = "3ca86d7614286477200da647c6ef6cf1"; // your Stor
 const endpoint = `https://${SHOPIFY_DOMAIN}/api/2023-04/graphql.json`;
 
 // Reusable function to call Shopify Storefront API
-async function shopifyFetch(query, variables = {}) {
+export async function shopifyFetch(query, variables = {}) {
   const result = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -89,19 +89,28 @@ export async function getProductsByCollection(handle) {
   const data = await shopifyFetch(query, { handle });
   return data.collectionByHandle.products.edges;
 }
+// src/api.js
 
-// Create a new cart with 1 product
-export async function createCart(variantId) {
+export async function createCart(variantId, quantity = 1) {
   const query = `
-    mutation cartCreate($input: CartInput!) {
+    mutation CartCreate($input: CartInput!) {
       cartCreate(input: $input) {
         cart {
           id
           checkoutUrl
-        }
-        userErrors {
-          field
-          message
+          lines(first: 10) {
+            edges {
+              node {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -111,64 +120,55 @@ export async function createCart(variantId) {
     input: {
       lines: [
         {
+          quantity: quantity,
           merchandiseId: variantId,
-          quantity: 1,
         },
       ],
     },
   };
 
   const data = await shopifyFetch(query, variables);
-
-  console.log("cartCreate response:", data); // Debug
-
-  if (data.cartCreate?.userErrors?.length > 0) {
-    console.error("Cart Create Error:", data.cartCreate.userErrors);
-    return null;
-  }
-
-  return data.cartCreate?.cart;
+  return data.cartCreate.cart;
 }
 
-// Add product to an existing cart
-export async function addToCart(cartId, variantId) {
+export async function addToCart(cartId, variantId, quantity = 1) {
   const query = `
-    mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+    mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart {
           id
           checkoutUrl
-        }
-        userErrors {
-          field
-          message
+          lines(first: 10) {
+            edges {
+              node {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
   `;
 
   const variables = {
-    cartId: cartId,
+    cartId,
     lines: [
       {
+        quantity: quantity,
         merchandiseId: variantId,
-        quantity: 1,
       },
     ],
   };
 
   const data = await shopifyFetch(query, variables);
-
-  console.log("cartLinesAdd response:", data); // Debug
-
-  if (data.cartLinesAdd?.userErrors?.length > 0) {
-    console.error("Cart Lines Add Error:", data.cartLinesAdd.userErrors);
-    return null;
-  }
-
-  return data.cartLinesAdd?.cart;
+  return data.cartLinesAdd.cart;
 }
-
 // Fetch full cart details
 export async function getCartDetails(cartId) {
     const query = `
@@ -285,3 +285,75 @@ export async function getCartDetails(cartId) {
     return data.cartLinesRemove?.cart;
   }
   
+// Customer Login
+export async function loginCustomer(email, password) {
+  const query = `
+    mutation customerAccessTokenCreate($email: String!, $password: String!) {
+      customerAccessTokenCreate(input: {email: $email, password: $password}) {
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+  const data = await shopifyFetch(query, { email, password });
+  return data.customerAccessTokenCreate;
+}
+
+// Customer Register
+export async function registerCustomer(firstName, lastName, email, password) {
+  const query = `
+    mutation customerCreate($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer {
+          id
+          email
+          firstName
+          lastName
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+  const data = await shopifyFetch(query, { input: { firstName, lastName, email, password } });
+  return data.customerCreate;
+}
+
+// Fetch Customer Info
+export async function getCustomerInfo(accessToken) {
+  const query = `
+    query {
+      customer {
+        id
+        firstName
+        lastName
+        email
+        orders(first: 5) {
+          edges {
+            node {
+              id
+              orderNumber
+              totalPriceV2 {
+                amount
+                currencyCode
+              }
+              createdAt
+            }
+          }
+        }
+      }
+    }
+  `;
+  const data = await shopifyFetch(query, {
+    accessToken,
+  });
+  return data.customer;
+}

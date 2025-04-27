@@ -1,49 +1,113 @@
 // src/components/CartPage.jsx
-import React, { useEffect, useState } from "react";
-import { getCartDetails, removeFromCart } from "../api";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { addToCart, shopifyFetch } from "../api";
+import './CartPage.css';  // <-- Import the CSS file
 
 function CartPage({ cartId, setCheckoutUrl }) {
-  const [cartData, setCartData] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [toastMessage, setToastMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCart() {
-      if (cartId) {
-        const cart = await getCartDetails(cartId);
-        setCartData(cart);
-        setCheckoutUrl(cart.checkoutUrl); // update checkoutUrl also
-      }
+    if (cartId) {
+      fetchCartItems(cartId);
     }
-    fetchCart();
-  }, [cartId, setCheckoutUrl]);
+  }, [cartId]);
 
-  async function handleRemove(lineId) {
-    const updatedCart = await removeFromCart(cartId, lineId);
-    setCartData(updatedCart);
-    setCheckoutUrl(updatedCart.checkoutUrl);
+  async function fetchCartItems(cartId) {
+    const query = `
+      query CartQuery($cartId: ID!) {
+        cart(id: $cartId) {
+          id
+          lines(first: 10) {
+            edges {
+              node {
+                id
+                quantity
+                merchandise {
+                  ... on ProductVariant {
+                    id
+                    title
+                    priceV2 {
+                      amount
+                    }
+                    image {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+    const variables = { cartId };
+    const data = await shopifyFetch(query, variables);
+
+    setCartItems(data.cart.lines.edges);
   }
 
-  if (!cartData) {
-    return <div>Loading cart...</div>;
+  async function updateQuantity(lineId, newQty) {
+    const cart = await addToCart(cartId, lineId, newQty);
+    setCartItems(cart.lines.edges);
+    showToast(`Updated quantity to ${newQty}`);
   }
 
-  if (cartData.lines.edges.length === 0) {
-    return <div>Your cart is empty.</div>;
+  function showToast(message) {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(""), 3000);
   }
 
   return (
-    <div>
-      <h2>Your Cart</h2>
-      {cartData.lines.edges.map((item) => (
-        <div key={item.node.id} style={{ marginBottom: "20px", borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
-          <img src={item.node.merchandise.image?.url} alt="" width="80" />
-          <h4>{item.node.merchandise.product.title}</h4>
-          <p>Quantity: {item.node.quantity}</p>
-          <button onClick={() => handleRemove(item.node.id)}>Remove</button>
+    <div className="cart-page-container">
+      {toastMessage && (
+        <div className="toast-message">
+          {toastMessage}
         </div>
-      ))}
-      <a href={cartData.checkoutUrl}>
-        <button style={{ marginTop: "20px" }}>Proceed to Checkout</button>
-      </a>
+      )}
+
+      <h2>Your Cart</h2>
+
+      {cartItems.length === 0 ? (
+        <p className="empty-cart">Your cart is empty.</p>
+      ) : (
+        <div className="cart-items">
+          {cartItems.map(({ node }) => (
+            <div key={node.id} className="cart-item">
+              <div className="cart-item-img">
+                <img src={node.merchandise.image.url} alt={node.merchandise.title} />
+              </div>
+              <div className="cart-item-details">
+                <h3>{node.merchandise.title}</h3>
+                <p className="price">${node.merchandise.priceV2.amount}</p>
+                <div className="quantity-control">
+                  <button 
+                    className="quantity-btn" 
+                    onClick={() => updateQuantity(node.id, node.quantity - 1)} 
+                    disabled={node.quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <span>{node.quantity}</span>
+                  <button 
+                    className="quantity-btn" 
+                    onClick={() => updateQuantity(node.id, node.quantity + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+          <div className="cart-actions">
+            <button className="checkout-btn" onClick={() => navigate('/checkout')}>
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
