@@ -201,6 +201,40 @@ export async function getCartDetails(cartId) {
     const data = await shopifyFetch(query, { cartId });
     return data.cart;
   }
+  export async function getProductByHandle(handle) {
+    const query = `
+      query getProduct($handle: String!) {
+        productByHandle(handle: $handle) {
+          id
+          title
+          description
+          handle
+          images(first: 5) {
+            edges {
+              node {
+                url
+              }
+            }
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+            }
+          }
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    `;
+    const data = await shopifyFetch(query, { handle });
+    return data.productByHandle;
+  }
   
   // Remove item from cart
   export async function removeFromCart(cartId, lineId) {
