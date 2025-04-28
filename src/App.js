@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';  // import toast CSS
 import Home from "./components/Home";
 import Collection from "./components/Collection";
+import CollectionList from "./components/Collections";
 import ProductPage from "./components/ProductPage";
 import CartPage from "./components/CartPage";
 import Login from "./components/LogIn";
@@ -67,8 +68,9 @@ function App() {
           {/* Menu Center */}
           <nav style={{ display: "flex", gap: "30px", fontWeight: "600", fontSize: "16px" }}>
             <Link to="/">Home</Link>
-            <Link to="/collection/frontpage">Collections</Link>
-            <Link to="/">About</Link>
+            <Link to="/collections">Collections</Link>
+            <Link to="/collection/frontpage">frontpage</Link>
+            {/* <Link to="/">About</Link> */}
             <Link to="/">Contact</Link>
           </nav>
 
@@ -106,6 +108,7 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/collections" element={<CollectionList/>}></Route>
             <Route path="/collection/:handle" element={<Collection addToCart={handleAddToCart} />} />
             <Route path="/cart" element={<CartPage cartId={cartId} setCheckoutUrl={setCheckoutUrl} />} />
             <Route path="/product/:handle" element={<ProductPage addToCart={handleAddToCart} />} /> {/* 👈 add this */}

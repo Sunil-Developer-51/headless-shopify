@@ -7,7 +7,7 @@ function Home() {
       {/* Banner Section */}
       <section className="banner">
         <h1>Welcome to Our Store</h1>
-        <Link to="/collection/your-collection-handle">
+        <Link to="/collection/accessories">
           <button className="shop-now-btn">Shop Now</button>
         </Link>
       </section>
