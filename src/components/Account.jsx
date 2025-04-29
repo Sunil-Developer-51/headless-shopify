@@ -1,7 +1,7 @@
 // src/components/Account.jsx
 import React, { useEffect, useState } from "react";
 import { getCustomerInfo } from "../api";
-import './AccountPage.css'; // Import CSS for styling
+import '../style/AccountPage.css'; // Import CSS for styling
 
 function Account() {
   const [customer, setCustomer] = useState(null);

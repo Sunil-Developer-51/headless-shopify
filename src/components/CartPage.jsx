@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { addToCart, shopifyFetch } from "../api";
-import './CartPage.css';  // <-- Import the CSS file
+import '../style/CartPage.css';  // <-- Import the CSS file
 
 function CartPage({ cartId, setCheckoutUrl }) {
   const [cartItems, setCartItems] = useState([]);

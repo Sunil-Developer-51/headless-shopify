@@ -12,7 +12,7 @@ import Login from "./components/LogIn";
 import Register from "./components/Register";
 import Account from "./components/Account";
 import { createCart, addToCart } from "./api";
-import "./components/styles.css";  // Importing the external CSS file
+import "./style/styles.css";  // Importing the external CSS file
 
 function App() {
   const [cartId, setCartId] = useState(() => localStorage.getItem("cartId"));
@@ -98,7 +98,7 @@ function App() {
               )}
             </Link>
 
-            <Link to="/account" style={{ fontSize: "24px" }}>
+            <Link to="/register" style={{ fontSize: "24px" }}>
               👤
             </Link>
           </div>

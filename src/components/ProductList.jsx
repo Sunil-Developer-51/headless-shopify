@@ -1,7 +1,7 @@
 // src/components/ProductList.js
 import React from "react";
 import { Link } from "react-router-dom";
-import './ProductList.css'; // Importing the CSS for the component
+import '../style/ProductList.css'; // Importing the CSS for the component
 
 function ProductList({ products, addToCart }) {
   return (

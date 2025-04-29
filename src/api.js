@@ -331,7 +331,7 @@ export async function registerCustomer(firstName, lastName, email, password) {
 export async function getCustomerInfo(accessToken) {
   const query = `
     query {
-      customer {
+      customer(customerAccessToken:"${accessToken}") {
         id
         firstName
         lastName
@@ -345,7 +345,6 @@ export async function getCustomerInfo(accessToken) {
                 amount
                 currencyCode
               }
-              createdAt
             }
           }
         }
@@ -355,5 +354,6 @@ export async function getCustomerInfo(accessToken) {
   const data = await shopifyFetch(query, {
     accessToken,
   });
+  console.log(data,'data')
   return data.customer;
 }

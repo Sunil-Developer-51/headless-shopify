@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { registerCustomer } from "../api";
 import { useNavigate } from "react-router-dom";
-import './AuthPage.css'; // Import CSS for styling
+import '../style/AuthPage.css'; // Import CSS for styling
 
 function Register() {
   const [firstName, setFirstName] = useState("");
