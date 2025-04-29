@@ -1,15 +1,23 @@
 // src/components/Account.jsx
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getCustomerInfo } from "../api";
 import '../style/AccountPage.css'; // Import CSS for styling
 
 function Account() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+  };
   const [customer, setCustomer] = useState(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       fetchCustomerData(accessToken);
+    }else{
+      navigate("/login");
     }
   }, []);
 
@@ -40,6 +48,7 @@ function Account() {
             ) : (
               <p>No orders found</p>
             )}
+            <button onClick={handleLogout}>Logout</button>
           </div>
         ) : (
           <p>Loading...</p>

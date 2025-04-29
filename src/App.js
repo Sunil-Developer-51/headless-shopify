@@ -98,7 +98,7 @@ function App() {
               )}
             </Link>
 
-            <Link to="/register" style={{ fontSize: "24px" }}>
+            <Link to="/account" style={{ fontSize: "24px" }}>
               👤
             </Link>
           </div>
